@@ -28,16 +28,20 @@ class EducationDetailSerizer(serializers.ModelSerializer):
 
 class CandidateDetailSerializer(serializers.ModelSerializer):
 
+    fullName = serializers.SerializerMethodField('get_full_name')
+
     class Meta:
         model = Candidate
         fields = [
-            'firstName',
-            'lastName',
+            'fullName',
             'gender',
             'phone',
             'mail',
             'status'
         ]
+
+    def get_full_name(self, candidate):
+        return "%s %s" % (candidate.firstName, candidate.lastName)
 
 
 class ApplicationSerializer(serializers.Serializer):
@@ -64,3 +68,20 @@ class ApplicationSerializer(serializers.Serializer):
     def get_skill_details(self, candidate):
         serializer = SkillDetailSerializer(candidate.candidate_skill, many=True)
         return serializer.data
+
+
+class BasicCandidateDetailSerializer(serializers.ModelSerializer):
+
+    fullName = serializers.SerializerMethodField('get_full_name')
+
+    class Meta:
+        model = Candidate
+        fields = [
+            'fullName',
+            'gender',
+            'mail',
+            'status'
+        ]
+
+    def get_full_name(self, candidate):
+        return "%s %s" % (candidate.firstName, candidate.lastName)

@@ -8,7 +8,7 @@ from .serializers import *
 @api_view(['GET'])
 def all_applications(requests):
     applications = Candidate.objects.all()
-    serializer = ApplicationSerializer(applications, many=True)
+    serializer = BasicCandidateDetailSerializer(applications, many=True)
 
     return Response(serializer.data, status=status.HTTP_200_OK)
 
