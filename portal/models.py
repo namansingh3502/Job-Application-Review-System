@@ -32,17 +32,29 @@ class Candidate(models.Model):
 
     phone = models.CharField(
         _("Phone No."),
-        max_length=10
+        max_length=10,
+        unique=True
     )
 
     mail = models.EmailField(
-        _("Mail id")
+        _("Mail id"),
+        unique=True
     )
 
     status = models.CharField(
         _("Status"),
-        choices=STATUS
+        choices=STATUS,
+        max_length=8
     )
+
+    class Meta:
+        db_table = "candidate_details"
+        verbose_name = _("candidate_detail")
+        verbose_name_plural = _("candidate_details")
+        unique_together = ('mail', 'phone')
+
+    def __str__(self):
+        return "%s %s" % (self.firstName, self.lastName)
 
 
 class EducationDetail(models.Model):
@@ -78,6 +90,15 @@ class EducationDetail(models.Model):
         _("percentage")
     )
 
+    class Meta:
+        db_table = "education_details"
+        verbose_name = _("education_detail")
+        verbose_name_plural = _("education_details")
+        unique_together = ('candidate', 'certificate_degree_name')
+
+    def __str__(self):
+        return "%s %s" % (self.candidate, self.certificate_degree_name)
+
 
 class Skills(models.Model):
     SKILL_LEVEL = (
@@ -97,6 +118,16 @@ class Skills(models.Model):
     )
     skill_level = models.CharField(
         _("skill_level"),
-        max_length=10,
+        max_length=12,
         choices=SKILL_LEVEL
     )
+
+    class Meta:
+        db_table = "skills_details"
+        verbose_name = _("skill_detail")
+        verbose_name_plural = _("skill_details")
+        unique_together = ('candidate', 'skill')
+
+    def __str__(self):
+        return "%s %s" % (self.candidate, self.skill)
+
