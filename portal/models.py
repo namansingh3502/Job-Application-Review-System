@@ -4,9 +4,9 @@ from django.utils.translation import gettext_lazy as _
 
 class Candidate(models.Model):
     STATUS = (
-        ('applied', 'applied'),
-        ('accepted', 'accepted'),
-        ('rejected', 'rejected')
+        ('Applied', 'Applied'),
+        ('Accepted', 'Accepted'),
+        ('Rejected', 'Rejected')
     )
 
     GENDER = (
@@ -44,7 +44,8 @@ class Candidate(models.Model):
     status = models.CharField(
         _("Status"),
         choices=STATUS,
-        max_length=8
+        max_length=8,
+        default="Applied"
     )
 
     class Meta:
