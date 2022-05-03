@@ -6,6 +6,23 @@ import FetchData from "../api/fetchData";
 import PersonalDetail from "./personalDetail";
 import EducationDetails from "./educationDetails";
 import SkillDetails from "./skillDetail";
+import axios from "axios";
+
+async function changeApplicationStatus(param) {
+  console.log("param ", param);
+  const res = await axios.post(
+    `1/application/update_status`,
+    // `${user_id}/application/update_status`,
+    {
+      status: param.status,
+    },
+    {
+      headers: {
+        Authorization: localStorage.getItem("Token"),
+      },
+    }
+  );
+}
 
 const Profile = (props) => {
   const isOpen = props.isOpen;
@@ -87,7 +104,12 @@ const Profile = (props) => {
                             "rounded px-2 py-1 bg-green-500 hover:bg-green-600"
                           }
                           type={"button"}
-                          onClick={() => {}}
+                          onClick={() =>
+                            changeApplicationStatus({
+                              status: "accept",
+                              user_id: props.id,
+                            })
+                          }
                         >
                           Accept
                         </button>
@@ -96,7 +118,12 @@ const Profile = (props) => {
                             "rounded px-2 py-1 bg-red-500 hover:bg-red-700"
                           }
                           type={"button"}
-                          onClick={() => {}}
+                          onClick={() =>
+                            changeApplicationStatus({
+                              status: "reject",
+                              user_id: props.id,
+                            })
+                          }
                         >
                           Reject
                         </button>
