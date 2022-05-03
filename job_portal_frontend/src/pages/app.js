@@ -1,15 +1,32 @@
 import * as ReactDOM from "react-dom";
-import React, {StrictMode} from "react";
+import React, { StrictMode } from "react";
+import Dashboard from "../components/dashboard";
 
-export default function App (){
+import axios from "axios";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+axios.defaults.baseURL = `http://localhost:8000/api/`;
+
+export default function App() {
   return (
-    <div>Job Portal</div>
-  )
+    <QueryClientProvider client={queryClient}>
+      <Dashboard />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 }
 
 ReactDOM.render(
-    <StrictMode>
-        <App />
-    </StrictMode>,
-    document.getElementById("root")
+  <StrictMode>
+    <App />
+  </StrictMode>,
+  document.getElementById("root")
 );

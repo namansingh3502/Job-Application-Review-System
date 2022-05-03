@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-dhb4voqw60)u1_z#!d))c!io$(5mku0!q@@5qjj@n))s)zf99$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','campus-forum-naman.herokuapp.com']
+
 
 
 # Application definition
@@ -38,11 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'portal'
+    'portal',
+    'corsheaders',
+    
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -124,3 +131,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://localhost:1234",
+    "http://127.0.0.1:1234",
+    "http://127.0.0.1:3000",
+    "https://campus-forum-naman.herokuapp.com",
+    "https://college-forum.vercel.app",
+]
+
