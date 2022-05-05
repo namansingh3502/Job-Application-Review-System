@@ -12,6 +12,10 @@ const columns = [
     accessor: "gender",
   },
   {
+    Header: "Phone",
+    accessor: "phone",
+  },
+  {
     Header: "Mail",
     accessor: "mail",
   },
@@ -104,7 +108,7 @@ const Table = (props) => {
                             type={"button"}
                             onClick={() => {
                               setIsOpen(true);
-                              setId(cell.row.original.fullName);
+                              setId(cell.row.original.id);
                             }}
                           >
                             View Profile

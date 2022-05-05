@@ -33,6 +33,7 @@ class CandidateDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Candidate
         fields = [
+            'id',
             'fullName',
             'gender',
             'phone',
@@ -77,8 +78,10 @@ class BasicCandidateDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Candidate
         fields = [
+            'id',
             'fullName',
             'gender',
+            'phone',
             'mail',
             'status'
         ]

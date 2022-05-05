@@ -5,14 +5,16 @@ const SkillDetails = (props) => {
       <div className={"w-full py-1 text-gray-600 bg-gray-300 font-medium px-2"}>
         Skills
       </div>
-      {data.map((skill, index) => {
-        return (
-          <div className={"py-4 px-2 w-full"} key={index}>
-            <span className={""}>Skill : {skill.skill} </span>
-            <span className={""}> ( {skill.skill_level} ) </span>
-          </div>
-        );
-      })}
+      <div className={"py-4"}>
+        {data.map((skill, index) => {
+          return (
+            <div className={"py-1 px-2 w-full"} key={index}>
+              <span className={""}>Skill : {skill.skill} </span>
+              <span className={""}> ( {skill.skill_level} ) </span>
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };

@@ -1,7 +1,11 @@
 import { BsPencilSquare } from "react-icons/all";
 import CandidateTable from "./candidateTable";
+import NewCandidate from "./newCandidate";
+import { useState } from "react";
 
 const Dashboard = () => {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
     <div className={"mx-auto w-full lg:w-3/4 xl:w-3/5 min-h-full pt-4 px-1"}>
       <h1 className={"text-slate-300 text-4xl text font-bold"}>
@@ -16,7 +20,7 @@ const Dashboard = () => {
                 "sm:float-right p-2 bg-blue-600 hover:bg-blue-800 rounded-lg flex items-center text-white"
               }
               type={"button"}
-              onClick={() => alert("Add new candidate button")}
+              onClick={() => setIsOpen(true)}
             >
               <BsPencilSquare className={"text-md mx-2"} />
               Add New Candidate
@@ -25,9 +29,15 @@ const Dashboard = () => {
               All Candidates
             </div>
           </div>
-          <CandidateTable />
+          <CandidateTable
+            isOpen={isOpen}
+            setIsOpen={() => {
+              setIsOpen(false);
+            }}
+          />
         </div>
       </div>
+      <NewCandidate setIsOpen={() => setIsOpen(false)} isOpen={isOpen} />
     </div>
   );
 };

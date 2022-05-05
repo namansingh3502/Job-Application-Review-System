@@ -1,2 +1,5 @@
 /job_portal_frontend/node_modules/
-/job_portal_frontend/parcel-cache/
+/job_portal_frontend/.parcel-cache
+
+.idea
+/job_portal_frontend/.idea

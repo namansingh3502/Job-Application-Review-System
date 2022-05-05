@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { AiOutlineClose } from "react-icons/all";
 import { useQuery } from "react-query";
 import FetchData from "../api/fetchData";
@@ -8,37 +8,34 @@ import EducationDetails from "./educationDetails";
 import SkillDetails from "./skillDetail";
 import axios from "axios";
 
-async function changeApplicationStatus(param) {
-  console.log("param ", param);
-  const res = await axios.post(
-    `1/application/update_status`,
-    // `${user_id}/application/update_status`,
-    {
-      status: param.status,
-    },
-    {
-      headers: {
-        Authorization: localStorage.getItem("Token"),
-      },
-    }
-  );
-}
-
 const Profile = (props) => {
-  const isOpen = props.isOpen;
   const { status, data, error, isFetching, isPreviousData } = useQuery(
-    [`candidate-${props.id}-profile`, `1/application`],
+    [`candidate-${props.id}-profile`, `${props.id}/application`],
     FetchData,
     { keepPreviousData: true, retry: 1, cacheTime: 100000 * 60 * 5 }
   );
 
-  if (status == "success")
-    console.log("data profile ", data.data.education_details);
+  async function ChangeApplicationStatus(param) {
+    axios
+      .post(
+        `${param.user_id}/application/update_status`,
+        {
+          status: param.status,
+        },
+        {}
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          alert(`Application ${param.status}.`);
+          props.setIsOpen();
+        }
+      });
+  }
 
   return (
     <div>
       {status === "success" && (
-        <Transition appear show={isOpen} as={Fragment}>
+        <Transition appear show={props.isOpen} as={Fragment}>
           <Dialog as="div" className="relative z-10" onClose={props.setIsOpen}>
             <Transition.Child
               as={Fragment}
@@ -63,7 +60,7 @@ const Profile = (props) => {
                   leaveFrom="opacity-100 scale-100"
                   leaveTo="opacity-0 scale-95"
                 >
-                  <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-2 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-2 text-left align-middle shadow-xl transition-all">
                     <Dialog.Title
                       as="h3"
                       className="text-xl font-medium leading-6 text-gray-900 py-4 mx-2"
@@ -105,8 +102,8 @@ const Profile = (props) => {
                           }
                           type={"button"}
                           onClick={() =>
-                            changeApplicationStatus({
-                              status: "accept",
+                            ChangeApplicationStatus({
+                              status: "Accepted",
                               user_id: props.id,
                             })
                           }
@@ -118,12 +115,12 @@ const Profile = (props) => {
                             "rounded px-2 py-1 bg-red-500 hover:bg-red-700"
                           }
                           type={"button"}
-                          onClick={() =>
-                            changeApplicationStatus({
-                              status: "reject",
+                          onClick={() => {
+                            const res = ChangeApplicationStatus({
+                              status: "Rejected",
                               user_id: props.id,
-                            })
-                          }
+                            });
+                          }}
                         >
                           Reject
                         </button>

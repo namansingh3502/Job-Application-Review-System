@@ -5,11 +5,11 @@ import { useState } from "react";
 
 const CandidateTable = (props) => {
   const [page, setPage] = useState(0);
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [applicationStatus, setApplicationStatus] = useState("All");
+  const [dataChanged, setDataChanged] = useState(false);
 
   const { status, data, error, isFetching, isPreviousData } = useQuery(
-    [`candidate-list`, `applications`],
-    //   [`candidate-list`, `applications/${page}/${filter}`],
+    [`candidate-list`, `applications/${page}/${applicationStatus}`],
     FetchData,
     { keepPreviousData: true, retry: 1, cacheTime: 3600000 }
   );
@@ -20,40 +20,40 @@ const CandidateTable = (props) => {
         <button
           className={"py-1 px-2 bg-slate-400 rounded-lg"}
           onClick={() => {
-            setStatusFilter("all");
+            setApplicationStatus("All");
             setPage(0);
           }}
-          disabled={statusFilter === "All" && page === 0}
+          disabled={applicationStatus === "All" && page === 0}
         >
           All
         </button>
         <button
           className={"py-1 px-2 bg-yellow-400 rounded-lg"}
           onClick={() => {
-            setStatusFilter("Applied");
+            setApplicationStatus("Applied");
             setPage(0);
           }}
-          disabled={statusFilter === "Applied" && page === 0}
+          disabled={applicationStatus === "Applied" && page === 0}
         >
           Applied
         </button>
         <button
           className={"py-1 px-2 bg-green-500 rounded-lg"}
           onClick={() => {
-            setStatusFilter("Accepted");
+            setApplicationStatus("Accepted");
             setPage(0);
           }}
-          disabled={statusFilter === "Accepted" && page === 0}
+          disabled={applicationStatus === "Accepted" && page === 0}
         >
           Accepted
         </button>
         <button
           className={"py-1 px-2 bg-red-600 rounded-lg"}
           onClick={() => {
-            setStatusFilter("Rejected");
+            setApplicationStatus("Rejected");
             setPage(0);
           }}
-          disabled={statusFilter === "Rejected" && page === 0}
+          disabled={applicationStatus === "Rejected" && page === 0}
         >
           Rejected
         </button>
