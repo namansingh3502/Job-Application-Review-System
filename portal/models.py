@@ -10,8 +10,8 @@ class Candidate(models.Model):
     )
 
     GENDER = (
-        ('MALE', 'MALE'),
-        ('FEMAIL', 'FEMAIL')
+        ('Male', 'Male'),
+        ('Femail', 'Femail')
     )
 
     firstName = models.CharField(
@@ -104,7 +104,7 @@ class EducationDetail(models.Model):
 class Skills(models.Model):
     SKILL_LEVEL = (
         ('Beginner', 'Beginner'),
-        ('Intermediate', 'intermediate'),
+        ('Intermediate', 'Intermediate'),
         ('Expert', 'Expert')
     )
 
@@ -131,4 +131,3 @@ class Skills(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.candidate, self.skill)
-

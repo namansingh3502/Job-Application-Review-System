@@ -45,30 +45,47 @@ def update_status(requests, candidate_id):
 def add_candidate(requests):
     data = requests.data['data']
 
+    # setting select field values in correct form
+
+    data['personal']['gender'] = data['personal']['gender']['value']
+
+    for skill in data['skill']:
+        skill['skill_level'] = skill['skill_level']['value']
+
+    for education in data['education']:
+        education['starting_date'] = education['starting_date'][:10]
+        education['completion_date'] = education['completion_date'][:10]
+
+    # form verification
     personal_detail_form = CandidateForm(data['personal'])
 
     if not personal_detail_form.is_valid():
         return Response({'msg': 'Error in personal details'}, status=HTTP_400_BAD_REQUEST)
 
     for skill in data['skill']:
-        skill_details = {'skill': skill['name'], 'skill_level': skill['skill_level']['value']}
-        form = SkillForm(skill_details)
+        form = SkillForm(skill)
 
         if not form.is_valid():
             return Response({'msg': 'Error in skill details'}, status=HTTP_400_BAD_REQUEST)
 
-    for item in data['education']:
-        education = {
-            'institute_name': item['institute_name'],
-            'certificate_degree_name': item['certificate_degree_name'],
-            'major': item['major'],
-            'percentage': item['percentage'],
-            'starting_date': item['starting_date'][:10],
-            'completion_date': item['completion_date'][:10],
-        }
+    for education in data['education']:
+
         form = EducationDetailForm(education)
 
         if not form.is_valid():
             return Response({'msg': 'Error in education details'}, status=HTTP_400_BAD_REQUEST)
+
+    # save data
+    candidate = personal_detail_form.save()
+
+    for skill in data['skill']:
+        skill_detail = SkillForm(skill).save(commit=False)
+        skill_detail.candidate_id = candidate.id
+        skill_detail.save()
+
+    for education in data['education']:
+        education_detail = EducationDetailForm(education).save(commit=False)
+        education_detail.candidate_id = candidate.id
+        education_detail.save()
 
     return Response({'msg': 'accepted application'}, status=status.HTTP_200_OK)

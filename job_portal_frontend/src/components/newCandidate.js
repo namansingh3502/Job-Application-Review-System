@@ -205,7 +205,7 @@ const NewCandidate = (props) => {
                                                                 "border-2 rounded p-1 focus:outline-blue-500"
                                                             }
                                                             placeholder={"Skill..."}
-                                                            {...register(`skill.${index}.name`, {
+                                                            {...register(`skill.${index}.skill`, {
                                                                 required: true,
                                                             })}
                                                         />

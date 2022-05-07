@@ -5,7 +5,7 @@ from .models import *
 class CandidateForm(ModelForm):
     class Meta:
         model = Candidate
-        fields = ['firstName', 'lastName', 'phone', 'email']
+        exclude = ['status']
 
 
 class SkillForm(ModelForm):

@@ -37,7 +37,7 @@ class CandidateDetailSerializer(serializers.ModelSerializer):
             'fullName',
             'gender',
             'phone',
-            'mail',
+            'email',
             'status'
         ]
 
@@ -82,7 +82,7 @@ class BasicCandidateDetailSerializer(serializers.ModelSerializer):
             'fullName',
             'gender',
             'phone',
-            'mail',
+            'email',
             'status'
         ]
 
