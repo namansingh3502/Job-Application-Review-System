@@ -10,8 +10,8 @@ class Candidate(models.Model):
     )
 
     GENDER = (
-        ('Male', 'Male'),
-        ('Female', 'Female')
+        ('MALE', 'MALE'),
+        ('FEMAIL', 'FEMAIL')
     )
 
     firstName = models.CharField(
@@ -36,7 +36,7 @@ class Candidate(models.Model):
         unique=True
     )
 
-    mail = models.EmailField(
+    email = models.EmailField(
         _("Mail id"),
         unique=True
     )
@@ -52,7 +52,7 @@ class Candidate(models.Model):
         db_table = "candidate_details"
         verbose_name = _("candidate_detail")
         verbose_name_plural = _("candidate_details")
-        unique_together = ('mail', 'phone')
+        unique_together = ('email', 'phone')
 
     def __str__(self):
         return "%s %s" % (self.firstName, self.lastName)
