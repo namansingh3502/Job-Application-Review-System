@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -25,9 +24,7 @@ SECRET_KEY = 'django-insecure-dhb4voqw60)u1_z#!d))c!io$(5mku0!q@@5qjj@n))s)zf99$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','campus-forum-naman.herokuapp.com']
-
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'campus-forum-naman.herokuapp.com']
 
 # Application definition
 
@@ -41,15 +38,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'portal',
     'corsheaders',
-    
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    
+
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -79,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'job_portal.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -89,7 +85,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -121,7 +116,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
@@ -140,4 +134,3 @@ CORS_ORIGIN_WHITELIST = [
     "https://campus-forum-naman.herokuapp.com",
     "https://college-forum.vercel.app",
 ]
-

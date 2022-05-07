@@ -4,7 +4,7 @@ import NewCandidate from "./newCandidate";
 import { useState } from "react";
 
 const Dashboard = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className={"mx-auto w-full lg:w-3/4 xl:w-3/5 min-h-full pt-4 px-1"}>

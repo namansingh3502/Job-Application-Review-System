@@ -16,8 +16,8 @@ const columns = [
     accessor: "phone",
   },
   {
-    Header: "Mail",
-    accessor: "mail",
+    Header: "Email",
+    accessor: "email",
   },
   {
     Header: "Status",
