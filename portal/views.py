@@ -2,7 +2,6 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.core.paginator import Paginator
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 
 from .serializers import *
 from .forms import *
@@ -34,13 +33,13 @@ def update_status(requests):
     data = requests.data
 
     try:
-        applicant = Candidate.objects.get(id=candidate_id)
-        applicant.status = requests.data['status']
+        applicant = Candidate.objects.get(id=data['user'])
+        applicant.status = data['status']
         applicant.save()
     except Candidate.DoesNotExist:
-        return Response({'msg': 'candidate does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'msg': 'Candidate does not exist.'}, status=status.HTTP_404_NOT_FOUND)
 
-    return Response({'msg': '%d application' % requests.data['status']}, status=status.HTTP_200_OK)
+    return Response({'msg': 'Application %s.' % data['status']}, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])
