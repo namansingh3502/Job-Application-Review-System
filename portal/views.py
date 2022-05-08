@@ -30,7 +30,9 @@ def candidate_application(requests, candidate_id):
 
 
 @api_view(['POST'])
-def update_status(requests, candidate_id):
+def update_status(requests):
+    data = requests.data
+
     try:
         applicant = Candidate.objects.get(id=candidate_id)
         applicant.status = requests.data['status']
@@ -46,7 +48,6 @@ def add_candidate(requests):
     data = requests.data['data']
 
     # setting select field values in correct form
-
     data['personal']['gender'] = data['personal']['gender']['value']
 
     for skill in data['skill']:
@@ -57,6 +58,13 @@ def add_candidate(requests):
         education['completion_date'] = education['completion_date'][:10]
 
     # form verification
+    try:
+        candidate = Candidate.objects.get(phone=data['personal']['phone'])
+        candidate = Candidate.objects.get(email=data['personal']['email'])
+        return Response({'msg': "Phone or Email already registered."}, status=400)
+    except Candidate.DoesNotExist:
+        print('')
+
     personal_detail_form = CandidateForm(data['personal'])
 
     if not personal_detail_form.is_valid():
@@ -88,4 +96,4 @@ def add_candidate(requests):
         education_detail.candidate_id = candidate.id
         education_detail.save()
 
-    return Response({'msg': 'accepted application'}, status=status.HTTP_200_OK)
+    return Response({'msg': 'Candidate added.'}, status=status.HTTP_200_OK)

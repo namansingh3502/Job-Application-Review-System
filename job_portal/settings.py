@@ -178,6 +178,4 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:1234",
     "http://127.0.0.1:1234",
     "http://127.0.0.1:3000",
-    "https://campus-forum-naman.herokuapp.com",
-    "https://college-forum.vercel.app",
 ]
