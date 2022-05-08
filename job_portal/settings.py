@@ -144,7 +144,7 @@ LOGGING = {
             'propagate': True,
             'level': 'DEBUG',
         },
-        'job_portal_frontend': {
+        'job_portal': {
             'handlers': ['console', 'logfile'],
             'level': 'DEBUG',
             'propagate': False,
