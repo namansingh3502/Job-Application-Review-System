@@ -14,17 +14,7 @@ const Resume = (props) => {
               }
               type={"button"}
             >
-              View Resume
-            </button>
-          </a>
-          <a href={props.data} download="Nice Name of Document.pdf">
-            <button
-              className={
-                "rounded-lg text-md font-normal text-white bg-blue-600 hover:bg-blue-800 px-2 py-1"
-              }
-              type={"button"}
-            >
-              Download Resume
+              View/Download Resume
             </button>
           </a>
         </div>

@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django.core.paginator import Paginator
 
 from .serializers import *
+from .models import *
 from .forms import *
 
 
@@ -101,10 +102,11 @@ def add_candidate(requests):
 
     for file in requests.FILES:
         file = requests.FILES[file]
-        filename = "%d.pdf" % (candidate.pk)
+        filename = "%d.pdf" % candidate.pk
 
         try:
-            default_storage.save("resume/%s" % filename, file)
+            default_storage.save(filename, file)
+            resume = Resume.objects.create(candidate=candidate, url='http://127.0.0.1:8000/resume/%d.pdf' % candidate.pk )
         except Exception as e:
             print("e ", e)
             candidate.delete()
