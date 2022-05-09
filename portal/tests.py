@@ -1,3 +1,5 @@
+import json
+
 from django.test import TestCase
 from .models import *
 
@@ -6,13 +8,13 @@ class PortalTesting(TestCase):
     Add_Candidate = '/api/add_candidate'
     Update_Status = '/api/application/update_status'
 
-    CandidateDetail = {
+    CandidateDetail = json.dumps({
         'personal': {'firstName': 'Naman', 'lastName': 'Singh', 'phone': '1234567890', 'email': 'example@example.com',
                      'gender': {'value': 'Male', 'label': 'Male'}},
         'skill': [{'skill': 'Skill1', 'skill_level': {'value': 'Beginner', 'label': 'Beginner'}}], 'education': [
             {'institute_name': 'College 1', 'certificate_degree_name': 'Degree 1', 'major': 'Major 1',
              'percentage': '76', 'starting_date': '2022-05-09T18:30:00.000Z',
-             'completion_date': '2022-05-19T18:30:00.000Z'}]}
+             'completion_date': '2022-05-19T18:30:00.000Z'}]})
 
     def test_add_candidate(self):
         response = self.client.post(
