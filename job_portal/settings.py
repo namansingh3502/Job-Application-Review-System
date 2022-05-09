@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dhb4voqw60)u1_z#!d))c!io$(5mku0!q@@5qjj@n))s)zf99$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'campus-forum-naman.herokuapp.com']
 
@@ -129,7 +130,7 @@ LOGGING = {
         'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': "/home/naman/Desktop/job_portal/logs/gunicorn_log/forum.log",
+            'filename': "/home/naman/Desktop/job_portal/logs/gunicorn_log/django.log",
             'formatter': 'verbose',
         },
     },
@@ -179,3 +180,6 @@ CORS_ORIGIN_WHITELIST = [
     "http://127.0.0.1:1234",
     "http://127.0.0.1:3000",
 ]
+
+MEDIA_URL = '/resume/'
+MEDIA_ROOT  = os.path.join(BASE_DIR, 'resume')

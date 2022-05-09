@@ -29,7 +29,6 @@ class EducationDetailSerizer(serializers.ModelSerializer):
 class CandidateDetailSerializer(serializers.ModelSerializer):
 
     fullName = serializers.SerializerMethodField('get_full_name')
-    resume = serializers.SerializerMethodField('get_resume')
 
     class Meta:
         model = Candidate
@@ -40,19 +39,9 @@ class CandidateDetailSerializer(serializers.ModelSerializer):
             'phone',
             'email',
             'status',
-            'resume'
         ]
 
     def get_full_name(self, candidate):
-        return "%s %s" % (candidate.firstName, candidate.lastName)
-
-    def get_resume(self, candidate):
-
-        try:
-            return candidate.candidate_resume.url
-        except Candidate.RelatedObjectDoesNotExist:
-            print("err")
-
         return "%s %s" % (candidate.firstName, candidate.lastName)
 
 
@@ -61,6 +50,7 @@ class ApplicationSerializer(serializers.Serializer):
     candidate_details = serializers.SerializerMethodField('get_candidate_details')
     education_details = serializers.SerializerMethodField('get_education_details')
     skill_details = serializers.SerializerMethodField('get_skill_details')
+    resume = serializers.SerializerMethodField('get_resume')
 
     class Meta:
         fields = [
@@ -81,6 +71,11 @@ class ApplicationSerializer(serializers.Serializer):
         serializer = SkillDetailSerializer(candidate.candidate_skill, many=True)
         return serializer.data
 
+    def get_resume(self, candidate):
+        try:
+            return candidate.candidate_resume.url
+        except Exception as e:
+            return None
 
 class BasicCandidateDetailSerializer(serializers.ModelSerializer):
 
