@@ -1,3 +1,6 @@
+import json
+
+from django.core.files.storage import default_storage
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -15,9 +18,10 @@ def all_applications(requests, page, application_status):
         applications = Candidate.objects.all()
 
     paginator = Paginator(applications.order_by("pk"), 20)
-    page_obj = paginator.get_page(0)
+    page_obj = paginator.get_page(page)
     serializer = BasicCandidateDetailSerializer(page_obj, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+
+    return Response({"has_next": page_obj.has_next(), "data": serializer.data}, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -44,7 +48,7 @@ def update_status(requests):
 
 @api_view(['POST'])
 def add_candidate(requests):
-    data = requests.data['data']
+    data = json.loads(requests.data['data'])
 
     # setting select field values in correct form
     data['personal']['gender'] = data['personal']['gender']['value']
@@ -67,20 +71,20 @@ def add_candidate(requests):
     personal_detail_form = CandidateForm(data['personal'])
 
     if not personal_detail_form.is_valid():
-        return Response({'msg': 'Error in personal details'}, status=HTTP_400_BAD_REQUEST)
+        return Response({'msg': 'Error in personal details'}, status=status.HTTP_400_BAD_REQUEST)
 
     for skill in data['skill']:
         form = SkillForm(skill)
 
         if not form.is_valid():
-            return Response({'msg': 'Error in skill details'}, status=HTTP_400_BAD_REQUEST)
+            return Response({'msg': 'Error in skill details'}, status=status.HTTP_400_BAD_REQUEST)
 
     for education in data['education']:
 
         form = EducationDetailForm(education)
 
         if not form.is_valid():
-            return Response({'msg': 'Error in education details'}, status=HTTP_400_BAD_REQUEST)
+            return Response({'msg': 'Error in education details'}, status=status.HTTP_400_BAD_REQUEST)
 
     # save data
     candidate = personal_detail_form.save()
@@ -94,5 +98,16 @@ def add_candidate(requests):
         education_detail = EducationDetailForm(education).save(commit=False)
         education_detail.candidate_id = candidate.id
         education_detail.save()
+
+    for file in requests.FILES:
+        file = requests.FILES[file]
+        filename = "%d.pdf" % (candidate.pk)
+
+        try:
+            default_storage.save("resume/%s" % filename, file)
+        except Exception as e:
+            print("e ", e)
+            candidate.delete()
+            return Response({'msg': 'Error while saving resume.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     return Response({'msg': 'Candidate added.'}, status=status.HTTP_200_OK)

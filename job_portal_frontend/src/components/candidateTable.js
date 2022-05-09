@@ -1,14 +1,34 @@
 import { useQuery } from "react-query";
 import FetchData from "../api/fetchData";
-import Table from "./Table";
+import Table from "./table";
 import { useState } from "react";
 
-const CandidateTable = (props) => {
-  const [page, setPage] = useState(0);
-  const [applicationStatus, setApplicationStatus] = useState("All");
-  const [dataChanged, setDataChanged] = useState(false);
+function FilterButton(props) {
+  return (
+    <button
+      className={`py-1 px-2 rounded-lg ${props.data.color}`}
+      onClick={() => {
+        props.setApplicationStatus(props.data.name);
+      }}
+      disabled={props.disabledButton === props.data.name}
+    >
+      {props.data.name}
+    </button>
+  );
+}
 
-  const { status, data, error, isFetching, isPreviousData } = useQuery(
+const BUTTONS = [
+  { name: "All", color: "bg-slate-400" },
+  { name: "Applied", color: "bg-yellow-400" },
+  { name: "Accepted", color: "bg-green-500" },
+  { name: "Rejected", color: "bg-red-600" },
+];
+
+function CandidateTable() {
+  const [page, setPage] = useState(1);
+  const [applicationStatus, setApplicationStatus] = useState("All");
+
+  const { status, data } = useQuery(
     [`candidate-list`, `applications/${page}/${applicationStatus}`],
     FetchData,
     { keepPreviousData: true, retry: 1, cacheTime: 3600000 }
@@ -17,52 +37,54 @@ const CandidateTable = (props) => {
   return (
     <div>
       <div className={"flex inline-block px-2 space-x-2 font-medium my-2"}>
+        {BUTTONS.map((button) => (
+          <FilterButton
+            setApplicationStatus={(status) => {
+              setApplicationStatus(status);
+              setPage(1);
+            }}
+            data={button}
+            disabledButton={applicationStatus}
+            key={button.name}
+          />
+        ))}
+      </div>
+      <div className={"text-black"}>
+        {status === "loading" && <span>Loading......</span>}
+        {status === "error" && <span>Something went wrong...... </span>}
+        {status === "success" && data?.data.length !== 0 ? (
+          <div className={"overflow-auto"}>
+            <Table data={data.data.data} />
+          </div>
+        ) : null}
+        {status === "success" && data.data.length === 0 && (
+          <div>No candidates present.</div>
+        )}
+      </div>
+
+      <div className={"w-full py-4 flex justify-center space-x-2 items-center"}>
         <button
-          className={"py-1 px-2 bg-slate-400 rounded-lg"}
-          onClick={() => {
-            setApplicationStatus("All");
-            setPage(0);
-          }}
-          disabled={applicationStatus === "All" && page === 0}
+          className={
+            "py-1 px-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white"
+          }
+          onClick={() => setPage(page - 1)}
+          disabled={page <= 1}
         >
-          All
+          Previous Page
         </button>
+        <div>Page {page}</div>
         <button
-          className={"py-1 px-2 bg-yellow-400 rounded-lg"}
-          onClick={() => {
-            setApplicationStatus("Applied");
-            setPage(0);
-          }}
-          disabled={applicationStatus === "Applied" && page === 0}
+          className={
+            "py-1 px-2 rounded-lg bg-blue-600 hover:bg-blue-800 text-white"
+          }
+          onClick={() => setPage(page + 1)}
+          disabled={!data?.data["has_next"]}
         >
-          Applied
-        </button>
-        <button
-          className={"py-1 px-2 bg-green-500 rounded-lg"}
-          onClick={() => {
-            setApplicationStatus("Accepted");
-            setPage(0);
-          }}
-          disabled={applicationStatus === "Accepted" && page === 0}
-        >
-          Accepted
-        </button>
-        <button
-          className={"py-1 px-2 bg-red-600 rounded-lg"}
-          onClick={() => {
-            setApplicationStatus("Rejected");
-            setPage(0);
-          }}
-          disabled={applicationStatus === "Rejected" && page === 0}
-        >
-          Rejected
+          Next Page
         </button>
       </div>
-      {status === "loading" && <span>Loading......</span>}
-      {status === "error" && <span>Error...... {error.message}</span>}
-      {status === "success" && <Table data={data.data} />}
     </div>
   );
-};
+}
 
 export default CandidateTable;

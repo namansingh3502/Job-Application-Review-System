@@ -131,3 +131,12 @@ class Skills(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.candidate, self.skill)
+
+
+class Resume(models.Model):
+    candidate = models.OneToOneField(
+        Candidate,
+        on_delete=models.CASCADE,
+        related_name="candidate_resume"
+    )
+    url = models.URLField(blank=True, null=True)
