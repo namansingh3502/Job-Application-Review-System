@@ -11,7 +11,7 @@ class Candidate(models.Model):
 
     GENDER = (
         ('Male', 'Male'),
-        ('Femail', 'Femail')
+        ('Female', 'Female')
     )
 
     firstName = models.CharField(
