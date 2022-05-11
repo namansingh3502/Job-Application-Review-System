@@ -130,7 +130,7 @@ LOGGING = {
         'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': "/home/naman/Desktop/job_portal/logs/gunicorn_log/django.log",
+            'filename': "/home/naman/Desktop/job_portal/logs/django.log",
             'formatter': 'verbose',
         },
     },
@@ -158,7 +158,7 @@ LOGGING = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

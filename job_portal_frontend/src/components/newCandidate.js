@@ -35,8 +35,9 @@ const NewCandidate = (props) => {
   const onSubmit = (data) => {
     const formData = new FormData();
     formData.append("data", JSON.stringify(data));
-    formData.append(resume.name, resume);
-
+    if( resume !== null ) {
+        formData.append(resume.name, resume);
+    }
     axios
       .post(`add_candidate`, formData, {
         headers: {
@@ -47,10 +48,11 @@ const NewCandidate = (props) => {
       .then((res) => {
         if (res.status === 200) {
           alert("Candidate added successfully.");
-          props.setIsOpen;
+          props.setIsOpen();
         }
-        console.log("error ", res.data);
-      });
+      }).catch((error) => {
+          alert(error.response.data.msg)
+    })
   };
 
   return (
@@ -164,7 +166,7 @@ const NewCandidate = (props) => {
                           className={
                             "border-2 rounded p-1 focus:outline-blue-500"
                           }
-                          placeholder={"+91-9108784260"}
+                          placeholder={"9108784260"}
                           {...register(`personal.phone`, {
                             required: "Mobile number is required.",
                           })}
