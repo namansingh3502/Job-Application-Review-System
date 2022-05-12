@@ -13,7 +13,8 @@ const queryClient = new QueryClient({
     },
   },
 });
-axios.defaults.baseURL = `http://localhost:8000/api/`;
+axios.defaults.baseURL = `https://job-portal-backend-naman.herokuapp.com/api/`;
+// axios.defaults.baseURL = `http://localhost:8000/api/`;
 
 export default function App() {
   return (

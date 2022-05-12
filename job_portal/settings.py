@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-dhb4voqw60)u1_z#!d))c!io$(5mku0!q@@5qjj@n))s)zf99$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'campus-forum-naman.herokuapp.com']
+ALLOWED_HOSTS = ['job-portal-backend-naman.herokuapp.com']
 
 # Application definition
 
@@ -105,8 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -181,7 +180,11 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:1234",
     "http://127.0.0.1:1234",
     "http://127.0.0.1:3000",
+    "https://job-portal-backend-naman.herokuapp.com",
+    "https://job-application-review-system.vercel.app",
 ]
 
 MEDIA_URL = '/resume/'
 MEDIA_ROOT  = os.path.join(BASE_DIR, 'resume')
+
+django_heroku.settings(locals())
