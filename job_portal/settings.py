@@ -105,6 +105,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -130,7 +132,7 @@ LOGGING = {
         'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': "/home/naman/Desktop/job_portal/logs/django.log",
+            'filename': BASE_DIR / "job_portal/logs/django.log",
             'formatter': 'verbose',
         },
     },
