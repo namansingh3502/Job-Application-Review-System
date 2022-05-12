@@ -132,7 +132,7 @@ LOGGING = {
         'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': BASE_DIR / "job_portal/logs/django.log",
+            'filename': BASE_DIR / "django.log",
             'formatter': 'verbose',
         },
     },
